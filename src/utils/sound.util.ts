@@ -18,8 +18,8 @@ function sineWaveAt(sampleNumber: number, tone: number) {
 
 export function playSineWave(
   tone = 441,
-  volume = 0.2,
-  seconds = 0.5
+  volume = 0.1,
+  seconds = 0.1
 ) {
   const arr: number[] = []
 
