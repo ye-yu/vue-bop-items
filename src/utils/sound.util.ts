@@ -19,12 +19,20 @@ function sineWaveAt(sampleNumber: number, tone: number) {
 export function playSineWave(
   tone= Note.A4,
   volume = 0.1,
-  seconds = 0.1
+  seconds = 0.1,
+  smoothen = .1,
 ) {
   const arr: number[] = []
 
-  for (var i = 0; i < context.sampleRate * seconds; i++) {
+  for (let i = 0; i < context.sampleRate * seconds; i++) {
     arr[i] = sineWaveAt(i, tone) * volume
+  }
+
+  const headItems = ~~(arr.length * smoothen)
+
+  for (let i = 0; i < headItems; i++) {
+    arr[i] *= i / headItems;
+    arr[arr.length - 1 - i] *= i / headItems;
   }
 
   playSound(arr)
