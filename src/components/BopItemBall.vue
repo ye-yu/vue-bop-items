@@ -1,7 +1,13 @@
 <template>
-  <div class="container">
-    <div :class="ball">
+  <div class="grid">
+    <div :class="label">
+      {{ color }}
     </div>
+    <div :class="container">
+      <div :class="ball">
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -49,9 +55,18 @@ export default defineComponent({
     ball() {
       return this.start ? "ball ball-start" : "ball"
     },
+    container() {
+      return this.start ? "container container-start" : "container"
+    },
+    label() {
+      return this.start ? "label label-start" : "label"
+    },
     movementDurationSecond() {
       return `${this.movementDuration}s`
-    }
+    },
+    movementDurationHalfSecond() {
+      return `${Number(this.movementDuration) / 2}s`
+    },
   },
   updated() {
     if (this.start) this.startSoundLoop()
@@ -64,12 +79,42 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
+
+.label {
+  font-size: .8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: auto .8rem auto auto;
+  color: lightgrey;
+}
+
+.label-start {
+  animation: label-color infinite ease-out;
+  animation-duration: v-bind(movementDurationHalfSecond);
+}
+
+.container {
+  display: block;
+  border-left: solid 10px grey;
+  border-right: solid 10px grey;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.container-start {
+  animation: border-highlight infinite linear;
+  animation-duration: v-bind(movementDurationSecond);
+}
+
 .ball {
   display: block;
   width: 20px;
   height: 20px;
   background: v-bind(color);
-  border: 0;
   border-radius: 50%;
   margin: 2rem 0;
 }
@@ -84,12 +129,42 @@ export default defineComponent({
 }
 
 @keyframes ball-movement {
-  0%, 100% {
+  0%,
+  100% {
     margin-left: 0%;
   }
 
   50% {
     margin-left: calc(100% - 20px);
+  }
+}
+
+@keyframes border-highlight {
+
+  0%,
+  100% {
+    border-left-color: v-bind(color);
+  }
+
+  5%,
+  95%,
+  45%,
+  55% {
+    border-left-color: gray;
+    border-right-color: gray;
+  }
+
+  50% {
+    border-right-color: v-bind(color);
+  }
+}
+
+@keyframes label-color {
+  from {
+    color: v-bind(color);
+  }
+  to {
+    color: lightgray;
   }
 }
 </style>
