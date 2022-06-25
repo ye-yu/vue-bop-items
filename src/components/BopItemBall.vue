@@ -81,7 +81,7 @@ export default defineComponent({
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 80px auto;
 }
 
 .label {
