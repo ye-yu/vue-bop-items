@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import BopItem from './components/BopItem.vue'
 </script>
 
 <template>
@@ -13,9 +13,32 @@ import TheWelcome from './components/TheWelcome.vue'
   </header>
 
   <main>
-    <TheWelcome />
+    <BopItem :start="start" />
+    <button class="main-button" @click="onStart">
+      {{ startMessage }}
+    </button>
   </main>
 </template>
+
+<script lang="ts">
+export default {
+  data() {
+    return {
+      start: false,
+    }
+  },
+  computed: {
+    startMessage() {
+      return this.start ? "Stop" : "Start"
+    }
+  },
+  methods: {
+    onStart() {
+      this.start = !this.start;
+    }
+  }
+}
+</script>
 
 <style>
 @import './assets/base.css';
